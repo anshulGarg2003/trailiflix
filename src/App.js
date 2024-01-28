@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import { AuthContextProvider } from "./Context/AuthContext";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import Account from "./pages/Account";
+import ProtectedRoute from "./pages/ProtectedRoute";
+import Outsider from "./pages/Outsider";
+import Movie from "./pages/Movie";
+import MovieSearch from "./pages/MovieSearch";
+import ErrorPage from "./pages/ErrorPage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <AuthContextProvider>
+        <Routes>
+          
+          <Route path="/" element={<Outsider />}></Route>
+          <Route path="/home" element={<Home />}></Route>
+          <Route
+            path="/movie/:movieId"
+            element={
+              <ProtectedRoute>
+                <Movie /> 
+              </ProtectedRoute>
+            }
+          ></Route>
+          <Route path="/signUp" element={<SignUp />}></Route>
+          <Route path="/logIn" element={<Login />}></Route>
+          <Route
+            path="/account"
+            element={
+              <ProtectedRoute>
+                <Account />
+              </ProtectedRoute>
+            }
+          ></Route>
+          <Route path="/search/:searchmovie" element={<MovieSearch/>}></Route>
+          <Route path="*" element={<ErrorPage/>}></Route>
+        </Routes>
+      </AuthContextProvider>
+    </>
   );
 }
 
