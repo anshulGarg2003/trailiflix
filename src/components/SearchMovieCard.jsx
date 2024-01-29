@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const SearchMovieCard = ({ item }) => {
   return (
-    <div key={item.id} className="relative group w-[31.3%] m-3 overflow-hidden">
+    <div key={item.id} className="relative group sm:w-[31.3%] m-3 overflow-hidden">
       <img
         className="w-full h-auto object-cover transition-transform transform group-hover:scale-125"
         src={`https://image.tmdb.org/t/p/original/${item?.backdrop_path}`}

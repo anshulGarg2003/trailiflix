@@ -29,7 +29,7 @@ const SignUp = () => {
           className="hidden sm:block absolute w-full h-full object-cover"
           alt="background"
         />
-        <div className="bg-black/60 fixed w-full h-screen top-0 left-0 justify-center items-center">
+        <div className="bg-black/60 fixed w-full h-screen  top-0 left-0 justify-center items-center">
           <div className="w-full px-4 py-24 z-50">
             <div className="max-w-[450px] h-[500px] mx-auto bg-black/70 ">
               <div className=" flex max-w-[320px] mx-auto py-16 flex-col text-white">

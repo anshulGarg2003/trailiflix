@@ -16,7 +16,7 @@ import { Toaster } from "react-hot-toast";
 const Movie = () => {
   const [movie, setMovie] = useState({});
   const [video, setVideo] = useState([]);
-  const [showVideo, setShowVideo] = useState(false);
+  const [showVideo, setShowVideo] = useState(true);
   const { movieId } = useParams();
   const { user } = UserAuth();
   const movieID = doc(db, "users", `${user?.email}`);
@@ -24,6 +24,7 @@ const Movie = () => {
   const [data, setData] = useState([]);
   const [recommendation, setRecommendation] = useState([]);
   const [isDone, setIsDone] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   // const [isDone, setIsDone] = useState(false);
 
   const key = process.env.REACT_APP_TMDB_Key;
@@ -73,7 +74,7 @@ const Movie = () => {
 
         console.log(video);
         const timeout = setTimeout(() => {
-          setShowVideo(true);
+          // setShowVideo(true);
         }, 2000);
         return () => clearTimeout(timeout);
       })
@@ -104,7 +105,7 @@ const Movie = () => {
   };
 
   const opts = {
-    height: "500",
+    height: windowWidth > 768 ? "500" : "200",
     width: "100%",
     playerVars: {
       autoplay: 1,
@@ -154,37 +155,41 @@ const Movie = () => {
       <Navbar />
       {dataReceived === true ? (
         showVideo === false ? (
-          <div className="w-full h-screen text-white mb-2 items-end">
-            <div className="w-full h-full">
-              <div className="absolute w-full h-screen bg-gradient-to-r from-black"></div>
+          <div className="w-full h-[650px] sm:h-screen text-white mb-2 items-end ">
+            <div className="">
+              <div className="absolute w-full h-[650px] sm:h-screen bg-gradient-to-r from-black"></div>
               <img
-                className="w-full h-screen object-cover"
+                className="w-full h-[650px] sm:h-screen object-cover"
                 src={`https://image.tmdb.org/t/p/original${movie?.backdrop_path}`}
                 alt={movie?.original_title}
               />
-              <div className="absolute bottom-0 w-full p-5">
+              <div className="absolute bottom-0 ">
                 <div className="flex items-center">
-                  <h1 className="text-3xl font-bold m-2">{movie?.title}</h1>
+                  <h1 className="text-xl sm:text-3xl font-bold m-2">
+                    {movie?.title}
+                  </h1>
                   <span className="mx-1">|</span>
                   <p className="mr-1">{movie.vote_average?.toFixed(1)}</p>
                   <IoStar className="text-yellow-500" />
                 </div>
-                <div className="mt-2 text-xl flex items-center">
+                <div className="mt-2 m-2 text-sm sm:text-xl flex items-center">
                   <p className="items-center">{formatRuntime(movie.runtime)}</p>
                   <span className="mx-1">|</span>
                   <p>Released Date: {movie?.release_date}</p>
                 </div>
-                <p className="mt-2 w-full md:max-w-[70%]">{movie?.overview}</p>
+                <p className="mt-2 w-full flex justify-center m-2">
+                  {movie?.overview}
+                </p>
               </div>
             </div>
           </div>
         ) : (
           <div>
-            <div className="flex border rounded-md m-2">
-              <div className="w-[50%] ">
+            <div className="flex flex-col sm:flex-row border rounded-md m-2">
+              <div className="sm:w-[50%] w-full  ">
                 {isDone === true ? (
                   <YouTube
-                    className="m-5"
+                    className="m-3"
                     videoId={video[0]?.key}
                     opts={opts}
                   />
@@ -194,22 +199,22 @@ const Movie = () => {
                   </p>
                 )}
               </div>
-              <div className="text-white mb-2 flex m-5 w-[50%] ">
-                <div className="w-[100%] p-5 ">
-                  <div className="flex items-center">
-                    <h1 className="text-3xl font-bold m-2">{movie?.title}</h1>
-                    <div className="flex items-center">
-                      <span className="m-2">|</span>
+              <div className="text-white mb-2 flex sm:flex-row flex-col m-5 mt-2 sm:w-[50%] ">
+                <div className="w-[100%]  ">
+                  <div className="flex sm:flex-row flex-col sm:items-center">
+                    <h1 className="sm:text-3xl text-xl font-bold m-2">{movie?.title}</h1>
+                    <div className="flex sm:flex-row m-2 sm:items-center">
+                      <span className="m-2 hidden sm:block">|</span>
                       <p className="mr-1">{movie.vote_average?.toFixed(1)}</p>
-                      <IoStar className="text-yellow-500" />
+                      <IoStar className="text-yellow-500 " />
                     </div>
                   </div>
-                  <div className="mt-2 text-xl items-center">
+                  <div className="mt-2 text-md m-2 sm:text-xl items-center">
                     <p className="items-center">
                       {formatRuntime(movie.runtime)}
                     </p>
                     <p>Released Date: {movie?.release_date}</p>
-                    <div className="flex">
+                    <div className="flex flex-wrap">
                       {movie.genres.map((jonar, id) => (
                         <div
                           key={id}
@@ -220,8 +225,8 @@ const Movie = () => {
                       ))}
                     </div>
                   </div>
-                  <div className="flex text-justify items-center ring-red-500">
-                    <p className="mt-2 w-full pr-5">{movie?.overview}</p>
+                  <div className="flex flex-col sm:flex-row text-justify items-center ring-red-500">
+                    <p className="mt-2 w-full pr-5 mb-1">{movie?.overview}</p>
                     <img
                       className="w-[200px] shadow-md"
                       src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}

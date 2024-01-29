@@ -49,18 +49,18 @@ const MovieSearch = () => {
       <Navbar />
       {isDone === true ? (
         <div>
-          <div className=" text-white flex items-center m-5">
+          <div className=" text-white flex sm:flex-row flex-col items-center m-5">
             <p className="text-xl ml-5 mr-3">You search For :-</p>
             <h1 className="text-3xl font-bold text-white">{search}</h1>
           </div>
           {searchMovies.length !== 0 ? (
-            <div className="flex flex-wrap">
+            <div className="flex sm:flex-row flex-col flex-wrap">
               {searchMovies.map((item, id) => (
                 <SearchMovieCard key={id} item={item} />
               ))}
             </div>
           ) : (
-            <div className="text-white flex justify-center text-3xl">
+            <div className="text-white flex text-center justify-center sm:text-3xl text-xl">
               We are Sorry. We Don't find any such movie...
             </div>
           )}

@@ -24,7 +24,7 @@ const Feedback = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (name !== "" && mail !== "" && message !== "" && selectedEmoji!== "") {
+    if (name !== "" && mail !== "" && message !== "" && selectedEmoji !== "") {
       emailjs
         .sendForm(
           `${process.env.REACT_APP_EMAIL_SERVICE_ID}`,
@@ -50,14 +50,14 @@ const Feedback = () => {
   return (
     <>
       <form ref={form} className="flex flex-col items-center font-bold m-5 ">
-        <div className=" text-white h-[50%] m-5">
-          <div className="flex flex-col items-center text-3xl mt-5 mb-5">
-            <h1 className="flex justify-center text-3xl mb-5">
+        <div className="text-white m-5">
+          <div className="flex flex-col items-center lg:text-3xl sm:text-sm">
+            <h1 className="flex justify-center lg:text-3xl mb-5 sm:text-xl">
               Any Suggestions...✏️
             </h1>
-            <div className="flex text-5xl m-2 ">
+            <div className="flex lg:text-5xl sm:text-4xl m-2 space-x-2">
               <p
-                className={` cursor-pointer p-5 border m-2 rounded-md ${
+                className={`cursor-pointer p-3 border rounded-md ${
                   selectedEmoji === "😍" ? "border-green-600" : ""
                 } hover:scale-125 transition-transform duration-300`}
                 onClick={() => handleEmojiClick("😍")}
@@ -65,7 +65,7 @@ const Feedback = () => {
                 😍
               </p>
               <p
-                className={` cursor-pointer p-5 border m-2 rounded-md ${
+                className={`cursor-pointer p-3 border rounded-md ${
                   selectedEmoji === "😊" ? "border-green-600" : ""
                 } hover:scale-125 transition-transform duration-300`}
                 onClick={() => handleEmojiClick("😊")}
@@ -73,7 +73,7 @@ const Feedback = () => {
                 😊
               </p>
               <p
-                className={` cursor-pointer p-5 border m-2 rounded-md ${
+                className={`cursor-pointer p-3 border rounded-md ${
                   selectedEmoji === "😐" ? "border-green-600" : ""
                 } hover:scale-125 transition-transform duration-300`}
                 onClick={() => handleEmojiClick("😐")}
@@ -81,7 +81,7 @@ const Feedback = () => {
                 😐
               </p>
               <p
-                className={` cursor-pointer p-5 border m-2 rounded-md ${
+                className={`cursor-pointer p-3 border rounded-md ${
                   selectedEmoji === "😞" ? "border-green-600" : ""
                 } hover:scale-125 transition-transform duration-300`}
                 onClick={() => handleEmojiClick("😞")}
@@ -91,7 +91,7 @@ const Feedback = () => {
             </div>
           </div>
 
-          <div className="flex flex-col justify-center  text-black items-center w-full">
+          <div className="flex flex-col justify-center text-black items-center w-full">
             <input
               onChange={(e) => setName(e.target.value)}
               type="text"
@@ -115,20 +115,18 @@ const Feedback = () => {
               value={message}
               name="message"
               className="w-full text-xl m-2 p-2 rounded-md text-center mb-3"
-              row
-              cursor-pointer
-              s={8}
+              rows={8}
             ></textarea>
-            <div>
+            <div className="flex flex-col items-center w-full sm:flex-row justify-center">
               <button
                 onClick={handleSubmit}
-                className="bg-red-600 rounded-md p-3 m-3"
+                className="bg-red-600 rounded-md p-3 m-3 w-full sm:w-auto"
               >
                 Submit
               </button>
               <button
                 onClick={handleReset}
-                className="bg-red-600 rounded-md p-3 m-3"
+                className="bg-red-600 rounded-md p-3 m-3 w-full sm:w-auto"
               >
                 Reset
               </button>
