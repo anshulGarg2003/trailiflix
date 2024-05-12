@@ -1,13 +1,19 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
-import MovieCard from "./MovieCard";
+import TVShowCard from "./TVShowCard";
 
-const Row = ({ title, Url, rowId }) => {
-  const [movies, setmovies] = useState([]);
+const TVRow = ({ title, Url, rowId }) => {
+  const [show, setShow] = useState([]);
   useEffect(() => {
     axios.get(Url).then((res) => {
-      setmovies(res.data.results);
+      // console.log(res.data.results);
+      setShow(() => {
+        let tempmovie = res.data.results.filter(
+          (item) => item.backdrop_path !== null
+        );
+        return tempmovie;
+      });
     });
   }, [Url]);
 
@@ -34,8 +40,8 @@ const Row = ({ title, Url, rowId }) => {
           id={"slider" + rowId}
           className="w-full h-full overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-hide"
         >
-          {movies.map((item, id) => (
-            <MovieCard key={id} item={item} />
+          {show.map((item, id) => (
+            <TVShowCard key={id} item={item} />
           ))}
         </div>
         <MdChevronRight
@@ -48,4 +54,4 @@ const Row = ({ title, Url, rowId }) => {
   );
 };
 
-export default Row;
+export default TVRow;

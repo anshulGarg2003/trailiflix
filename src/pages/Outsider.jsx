@@ -3,6 +3,7 @@ import OutsiderNavbar from "../components/OutsiderNavbar";
 import { UserAuth } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { aboutData } from "../data";
+import toast from "react-hot-toast";
 
 const Outsider = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +17,11 @@ const Outsider = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    setDone(true);
+    if (email !== "") {
+      setDone(true);
+    } else {
+      toast.error("Enter Email first!!");
+    }
   };
 
   const handleFinal = async (e) => {
@@ -57,11 +62,13 @@ const Outsider = () => {
               <input
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-[25%] p-1 text-2xl align-middle m-1 bg-transparent/60 "
+                onKeyDown={(e) => e.key === "Enter" && handleClick(e)}
                 placeholder="Email Address"
                 type="email"
               />
               <button
                 onClick={handleClick}
+                
                 className="w-[10%] text-white bg-red-600 py-3 my-3 p-2 rounded font-bold"
               >
                 Get Started
@@ -76,6 +83,7 @@ const Outsider = () => {
                 placeholder=" Enter Password"
                 type="password"
                 autoComplete="current-password"
+                onKeyDown={(e) => e.key === "Enter" && handleFinal(e)}
               />
               <button
                 onClick={handleFinal}
@@ -113,9 +121,7 @@ const Outsider = () => {
                 <h1 className="text-white text-4xl font-bold py-2">
                   {item.title}
                 </h1>
-                <p className="text-white text-3xl mt-2">
-                  {item.desc}
-                </p>
+                <p className="text-white text-3xl mt-2">{item.desc}</p>
               </div>
               <img className="mr-7 w-[80%]" src={item.gif} alt="" />
             </>

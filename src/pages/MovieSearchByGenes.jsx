@@ -7,20 +7,20 @@ import { Toaster } from "react-hot-toast";
 import Feedback from "../components/Feedback";
 import Footer from "../components/Footer";
 
-const MovieSearch = () => {
+const MovieSearchByGenes = () => {
   const { state } = useLocation();
   const [isDone, setIsDone] = useState(false);
   const [data, setData] = useState([]);
-  const search = state?.search || "";
+  const jonar = state?.jonar || "";
   const type = state?.type || "";
   const [page, setPage] = useState(1);
-  console.log(search, type);
   const [searchMovies, setsearchMovies] = useState([]);
   const key = process.env.REACT_APP_TMDB_Key;
+  // console.log(type);
   useEffect(() => {
     axios
       .get(
-        `https://api.themoviedb.org/3/search/${type}?query=${search}&api_key=${key}&page=${page}`
+        `https://api.themoviedb.org/3/discover/${type}?api_key=${key}&with_genres=${jonar.id}&page=${page}`
       )
       .then((res) => {
         setData(() => {
@@ -31,17 +31,19 @@ const MovieSearch = () => {
           if (tempmovie.length === 0) return res.data.results;
           return tempmovie;
         });
+        console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [search, type, page]);
+  }, [jonar, page]);
 
   useEffect(() => {
     // console.log(data);
     const tempMovies = data;
-    console.log(tempMovies);
-    const sortedMovies = tempMovies.sort((a, b) => b.popularity - a.popularity);
+    const sortedMovies = tempMovies.sort(
+      (a, b) => b.vote_average - a.vote_average
+    );
     setsearchMovies(sortedMovies);
     const timeout = setTimeout(() => {
       setIsDone(true);
@@ -57,7 +59,7 @@ const MovieSearch = () => {
         <div>
           <div className=" text-white flex sm:flex-row flex-col items-center m-5">
             <p className="text-xl ml-5 mr-3">You search For :-</p>
-            <h1 className="text-3xl font-bold text-white">{search}</h1>
+            <h1 className="text-3xl font-bold text-white">{jonar.name}</h1>
           </div>
           {searchMovies.length !== 0 ? (
             <div className="flex sm:flex-row flex-col flex-wrap">
@@ -67,8 +69,7 @@ const MovieSearch = () => {
             </div>
           ) : (
             <div className="text-white flex text-center justify-center sm:text-3xl text-xl">
-              We are Sorry. We Don't find any such
-              {type === "tv" ? "TV Show" : "Movie"}...
+              We are Sorry. We Don't find any such {type==="tv"?"TV Show":"Movie"}...
             </div>
           )}
         </div>
@@ -107,4 +108,4 @@ const MovieSearch = () => {
   );
 };
 
-export default MovieSearch;
+export default MovieSearchByGenes;

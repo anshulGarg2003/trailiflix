@@ -52,7 +52,7 @@ const Feedback = () => {
       <form ref={form} className="flex flex-col items-center font-bold m-5 ">
         <div className="text-white m-5">
           <div className="flex flex-col items-center lg:text-3xl sm:text-sm">
-            <h1 className="flex justify-center lg:text-3xl mb-5 sm:text-xl">
+            <h1 className="flex justify-center sm:text-3xl mb-5 text-xl">
               Any Suggestions...✏️
             </h1>
             <div className="flex lg:text-5xl sm:text-4xl m-2 space-x-2">

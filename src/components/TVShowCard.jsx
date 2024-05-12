@@ -6,26 +6,26 @@ import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
-const MovieCard = ({ item, type }) => {
+const TVShowCard = ({ item }) => {
   const [like, setLike] = useState(false);
   const [saved, setSaved] = useState(false);
   const { user } = UserAuth();
 
-  const movieID = user ? doc(db, "users", `${user.email}`) : null;
+  const movieID = doc(db, "users", `${user?.email}`);
 
   const saveShow = async () => {
     if (user?.email) {
       setLike(!like);
       setSaved(true);
       await updateDoc(movieID, {
-        savedShows: arrayUnion({
+        savedTVShows: arrayUnion({
           id: item.id,
-          title: item.title,
+          name: item.name,
           img: item.backdrop_path,
         }),
       });
     } else {
-      toast.error("Please Log In to save the show");
+      toast.error("Please Log In to save the show!");
     }
   };
 
@@ -34,12 +34,12 @@ const MovieCard = ({ item, type }) => {
       <img
         className="w-full h-auto"
         src={`https://image.tmdb.org/t/p/w500/${item?.backdrop_path}`}
-        alt={item?.original_title}
+        alt={item?.original_name}
       />
       <div className="absolute w-full h-full top-0 left-0 hover:bg-black/60 opacity-0 hover:opacity-100 text-white justify-center items-center text-center">
-        <Link to={`/movie/${item.id}`}>
+        <Link to={`/tv/${item.id}`}>
           <p className="w-[90%] whitespace-normal test-xs md:text-sm font-bold flex justify-center items-center h-full ">
-            {item?.title}
+            {item?.name}
           </p>
         </Link>
         <p onClick={saveShow} className="absolute top-3 left-3 text-gray-300">
@@ -50,4 +50,4 @@ const MovieCard = ({ item, type }) => {
   );
 };
 
-export default MovieCard;
+export default TVShowCard;

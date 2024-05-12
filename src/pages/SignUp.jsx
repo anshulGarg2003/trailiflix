@@ -2,20 +2,27 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../Context/AuthContext";
 import Navbar from "../components/Navbar";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, signUp } = UserAuth();
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const FormSubmit = async (e) => {
     e.preventDefault();
+    if (password.length < 6) {
+      toast.error("Password should be of 6 character!!");
+      return;
+    }
 
     try {
       await signUp(email, password);
       navigate("/home");
     } catch (error) {
+      setError(error.message);
       console.log(error);
     }
   };
@@ -57,6 +64,10 @@ const SignUp = () => {
                   <button className="text-white bg-red-600 py-3 my-6 rounded font-bold">
                     Sign Up
                   </button>
+
+                  {error ? (
+                    <p className=" text-red-600 py-1 font-bold">{error}</p>
+                  ) : null}
 
                   <div className="flex justify-between text-[18px]">
                     <p className="mr-1">
